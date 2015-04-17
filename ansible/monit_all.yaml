@@ -1,0 +1,21 @@
+- name: Run all Monitoring tasks.
+  hosts: all
+  max_fail_percentage: 0
+  user: root
+  tasks:
+    - name: A simple ping
+      ping:
+    - name: Install Dependencies (Assuming Redhat. Will fix)
+      yum:
+        name: python-psutil
+        state: present
+    - name: monit module.
+      monit:
+        operation: cpu_usage 
+        args: sample args 
+      register: monit_result
+    - name: Print the result
+      debug: 
+        msg: Result from service check {{ monit_result }} oper-> {{ monit_result.result }}
+
+
